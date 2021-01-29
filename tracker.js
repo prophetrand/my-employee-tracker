@@ -1,8 +1,7 @@
-const cTable = require('console.table');
-// https://www.npmjs.com/package/console.table
-
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const cTable = require('console.table');
+// https://www.npmjs.com/package/console.table
 
 var connection = mysql.createConnection({
     host: "localhost",
