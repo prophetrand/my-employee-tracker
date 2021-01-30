@@ -290,7 +290,37 @@ function addRole() {
 
 
 function addDepartment() {
-
+    inquirer.prompt([
+        {
+            name: "department",
+            type: "input",
+            message: "What title should this department have?"
+        },
+        {
+            name: "id",
+            type: "input",
+            message: "What ID number should the department have?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        }
+    ]).then(function(answer) {
+        connection.query("INSERT INTO division SET ?",
+            {
+                department: answer.department,
+                department_id: answer.id
+            },
+            function(err) {
+                if (err) throw err;
+                console.log("Successfully added " + answer.department + " to the list of departments!");
+                choiceTime();
+            }
+        );
+    })
+    
 }
 
 function updateRole() {
