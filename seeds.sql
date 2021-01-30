@@ -29,14 +29,17 @@ VALUES ("Lad", "Etz", 1, 580);
 INSERT INTO employee (first_name, last_name, role_id, id)
 VALUES ("Jake", "Thomas", 1, 101);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
-VALUES ("M.", "Bison", 2, 101, 7);
+INSERT INTO employee (first_name, last_name, role_id, id)
+VALUES ("Killy", "Colly", 1, 280);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
-VALUES ("Manny", "Faberino", 3, 101, 17);
+VALUES ("M.", "Bison", 2, 101, 533);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
-VALUES ("Pete", "Rose", 4, 580, 99);
+VALUES ("Manny", "Faberino", 3, 280, 17);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
+VALUES ("Pete", "Rose", 4, 580, 12);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
 VALUES ("Yojimbo", "Tale", 4, 101, 207);

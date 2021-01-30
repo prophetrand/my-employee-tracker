@@ -46,7 +46,7 @@ function choiceTime() {
         type: "list",
         message: "What would you like to do?",
         choices: [
-            "View all crewmates", "View crewmates by role", "View crewmates by department", "Add crewmate", "Add manager", "Add role", "Add department", "Update crewmate roles"
+            "View all crewmates", "View crewmates by role", "View crewmates by department", "Add crewmate", "Add role", "Add department", "Update crewmate roles"
             // Bonus questions: Update employee managers
             // View crewmates by manager
             // Delete departments, roles, and employees
@@ -68,10 +68,6 @@ function choiceTime() {
     
         case "Add crewmate":
             addCrewmate();
-            break;
-        
-        case "Add manager":
-            addManager();
             break;
 
         case "Add role":
@@ -195,13 +191,103 @@ function addCrewmate() {
         }
     ]
     ).then(function(answer) {
-        var query = "";
-    })
+        switch (answer.role) {
+        case "Navigator":
+            var roleNum = 2;
+            break;
+        case "Cannoneer":
+            var roleNum = 3;
+            break;
+        case "Swabbie":
+            var roleNum = 4;
+            break;
+        }
+
+        switch (answer.manager) {
+        case "Jake Thomas":
+            var manaNum = 101;
+            break;
+        case "Lad Etz":
+            var manaNum = 580;
+            break;
+        case "Killy Colly":
+            var manaNum = 280;
+            break;
+        }
+        
+        connection.query("INSERT INTO employee SET ?", 
+            {
+                id: answer.id,
+                first_name: answer.first,
+                last_name: answer.last,
+                role_id: roleNum,
+                manager_id: manaNum
+            },
+            function(err) {
+                if (err) throw err;
+                console.log("Successfully added " + answer.first + " to the crew!")
+                choiceTime();
+            }
+        );
+    });
 }
 
 function addRole() {
+    var departs = [];
 
+    connection.query('SELECT department FROM division', function (err, res) {
+        if (err) throw err;
+        res.forEach((dep) => {departs.push(dep.department)});
+    });
+    
+    inquirer.prompt([
+        {
+            name: "title",
+            type: "input",
+            message: "What is the title of the role you would like to add?",
+        },
+        {
+            name: "salary",
+            type: "input",
+            message: "What salary should the role have?"
+        },
+        {
+            name: "id",
+            type: "input",
+            message: "What ID number should the role have? Please choose a number greater than 5.",
+            validate: function(value) {
+                if (isNaN(value) === false && value > 5) {
+                    return true;
+                }
+                return false;
+            }
+        },
+        {
+            name: "department",
+            type: "rawlist",
+            message: "Which department should this role be assigned to?",
+            choices: departs
+        }
+    ])
+    .then(function(answer) {
+        connection.query("INSERT INTO role SET ?",
+            {
+                title: answer.title,
+                salary: answer.salary,
+                role_id: answer.id,
+                department_id: 11
+            },
+            function(err) {
+                if (err) throw err;
+                console.log("Successfully added " + answer.title + " to the list of roles!");
+                choiceTime();
+            }
+        );
+    });
 }
+// INSERT INTO role (title, salary, role_id, department_id)
+// VALUES ("Navigator", 199.99, 2, 11);
+
 
 function addDepartment() {
 
@@ -209,4 +295,5 @@ function addDepartment() {
 
 function updateRole() {
     
+// query will be "UPDATE employee SET role = ..."
 }
