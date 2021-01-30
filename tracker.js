@@ -47,10 +47,6 @@ function choiceTime() {
         message: "What would you like to do?",
         choices: [
             "View all crewmates", "View crewmates by role", "View crewmates by department", "Add crewmate", "Add role", "Add department", "Update crewmate roles"
-            // Bonus questions: Update employee managers
-            // View crewmates by manager
-            // Delete departments, roles, and employees
-            // View the total utilized budget of a department -- ie the combined salaries of all employees in that department
         ]
     }).then(function(answer) {
         switch (answer.action){
