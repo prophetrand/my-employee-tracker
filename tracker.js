@@ -46,7 +46,7 @@ function choiceTime() {
         type: "list",
         message: "What would you like to do?",
         choices: [
-            "View all crewmates", "View crewmates by role", "View crewmates by department", "Add crewmate", "Add role", "Add department", "Update crewmate roles"
+            "View all crewmates", "View crewmates by role", "View crewmates by department", "Add crewmate", "Add manager", "Add role", "Add department", "Update crewmate roles"
             // Bonus questions: Update employee managers
             // View crewmates by manager
             // Delete departments, roles, and employees
@@ -70,6 +70,10 @@ function choiceTime() {
             addCrewmate();
             break;
         
+        case "Add manager":
+            addManager();
+            break;
+
         case "Add role":
             addRole();
             break;
@@ -143,7 +147,56 @@ function viewDepartment() {
 }
 
 function addCrewmate() {
+    var choices = [];
+    var managers = [];
 
+    connection.query('SELECT title FROM role WHERE role_id != 1 AND role_id != 5', function (err, res) {
+        if (err) throw err;
+        res.forEach((role) => {choices.push(role.title)});
+    });
+    
+    connection.query("SELECT first_name, last_name FROM employee WHERE role_id = 1", function (err, res) {
+            if (err) throw err;
+            res.forEach((manager) => {
+                var first = manager.first_name;
+                var last = manager.last_name;
+                var fullName = first + " " + last;
+                managers.push(fullName);
+            });
+    });
+
+    inquirer.prompt([
+        {
+            name: "first",
+            type: "input",
+            message: "What is the new recruit's first name?"
+        },
+        {
+            name: "last",
+            type: "input",
+            message: "What is the recruit's last name"
+        },
+        {
+            name: "id",
+            type: "input",
+            message: "What is the recruit's ID number?"
+        },
+        {
+            name: "role",
+            type: "rawlist",
+            choices: choices,
+            message: "Which post will the recruit fill?"
+        },
+        {
+            name: "manager",
+            type: "rawlist",
+            choices: managers,
+            message: "Who will the recruit's manager be?"
+        }
+    ]
+    ).then(function(answer) {
+        var query = "";
+    })
 }
 
 function addRole() {
