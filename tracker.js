@@ -14,13 +14,29 @@ var connection = mysql.createConnection({
   
     // Your password
     password: "password",
-    database: "#"
+    database: "workforce"
 });
 
 connection.connect(function(err) {
     if (err) throw err;
     
     // FUNCTIONS
+    console.log(`
+    888888888888888888888888888888888888888888888888888888888888
+    888888888888888888888888888888888888888888888888888888888888
+    8888888888888888888888888P""  ""9888888888888888888888888888
+    8888888888888888P"88888P          988888"9888888888888888888
+    8888888888888888  "9888            888P"  888888888888888888
+    888888888888888888bo "9  d8o  o8b  P" od88888888888888888888
+    888888888888888888888bob 98"  "8P dod88888888888888888888888
+    888888888888888888888888    db    88888888888888888888888888
+    88888888888888888888888888      8888888888888888888888888888
+    88888888888888888888888P"9bo  odP"98888888888888888888888888
+    88888888888888888888P" od88888888bo "98888888888888888888888
+    888888888888888888   d88888888888888b   88888888888888888888
+    8888888888888888888oo8888888888888888oo888888888888888888888
+    888888888888888888888888888888888888888888888888888888888888                                                       
+  `);
     choiceTime();
 });
 
@@ -30,7 +46,7 @@ function choiceTime() {
         type: "list",
         message: "What would you like to do?",
         choices: [
-            "View all crewmates", "View crewmates by role", "View crewmates by department", "Add crewmate", "Add role", "Add department", "Update employee roles"
+            "View all crewmates", "View crewmates by role", "View crewmates by department", "Add crewmate", "Add role", "Add department", "Update crewmate roles"
             // Bonus questions: Update employee managers
             // View crewmates by manager
             // Delete departments, roles, and employees
@@ -62,10 +78,19 @@ function choiceTime() {
             addDepartment();
             break;
 
-        case "Update employee roles":
+        case "Update crewmate roles":
             updateRole();
             break;
         }
-        
+    });
+}
+
+function viewCrew() {
+    var query = "SELECT * from employee";
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.table(res);
+
+        choiceTime();
     });
 }
