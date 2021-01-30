@@ -324,6 +324,48 @@ function addDepartment() {
 }
 
 function updateRole() {
+    var roleArray = [];
+    connection.query('SELECT title FROM role WHERE role_id != 1 AND role_id != 5', function (err, res) {
+        if (err) throw err;
+        res.forEach((role) => {roleArray.push(role.title)});
+    });
     
-// query will be "UPDATE employee SET role = ..."
-}
+    connection.query("SELECT * FROM employee", function(err, results) {
+        if (err) throw err;
+        var crewArray = results.map((crew) => {return crew.first_name});
+
+        inquirer.prompt([
+            {
+                name: "crewmate",
+                type: "list",
+                message: "Which crewmate's role would you like to update?",
+                choices: crewArray
+            },
+            {
+                name: "roleChoice",
+                type: "rawlist",
+                message: "Which role would you like to assign them?",
+                choices: roleArray
+            }
+        ])
+        .then(function(answer) {
+            var crewChoice;
+            for (var i = 0; i < results.length; i++) {
+                if (results[i].first_name === answer.crewmate) {
+                    crewChoice = results[i];
+                }
+            }
+
+            connection.query("UPDATE employee SET ? WHERE ?", 
+            [
+                {role_id: 4},
+                {id: crewChoice.id}
+            ],
+            function(err) {
+                if (err) throw err;
+                console.log("Crewmate role updated successfully!");
+                choiceTime();
+            });
+        });
+    });
+};
