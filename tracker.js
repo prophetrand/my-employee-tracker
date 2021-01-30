@@ -121,3 +121,39 @@ function viewRole() {
         });
     });
 }
+
+function viewDepartment() {
+    inquirer.prompt(
+        {
+            name: "Department",
+            type: "rawlist",
+            messages: "Which department would you like to see?",
+            choices: ["Brains", "Brawn"]
+        }
+    )
+    .then(function(answer) {
+        var query = "SELECT id, first_name, last_name, title, salary, department FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.role_id LEFT JOIN division AS d ON d.department_id = r.department_id WHERE d.department = ?";
+        connection.query(query, [answer.Department], function(err, res) {
+            if (err) throw err;
+            console.table(res);
+
+            choiceTime();
+        });
+    });
+}
+
+function addCrewmate() {
+
+}
+
+function addRole() {
+
+}
+
+function addDepartment() {
+
+}
+
+function updateRole() {
+    
+}
