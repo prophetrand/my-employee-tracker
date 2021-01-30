@@ -35,7 +35,7 @@ connection.connect(function(err) {
     88888888888888888888P" od88888888bo "98888888888888888888888
     888888888888888888   d88888888888888b   88888888888888888888
     8888888888888888888oo8888888888888888oo888888888888888888888
-    888888888888888888888888888888888888888888888888888888888888                                                       
+    8888888888888~~ Welcome to Your Pirate Crew ~~88888888888888                                                       
   `);
     choiceTime();
 });
@@ -58,7 +58,7 @@ function choiceTime() {
             viewCrew();
             break;
 
-        case "View cremates by role":
+        case "View crewmates by role":
             viewRole();
             break;
 
@@ -86,11 +86,38 @@ function choiceTime() {
 }
 
 function viewCrew() {
-    var query = "SELECT * from employee";
+    var query = "SELECT id, first_name, last_name, title, salary, department FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.role_id LEFT JOIN division AS d ON d.department_id = r.department_id"
+    
     connection.query(query, function(err, res) {
         if (err) throw err;
         console.table(res);
 
         choiceTime();
+    });
+}
+
+function viewRole() {
+    inquirer.prompt(
+        {
+            name: "role",
+            type: "rawlist",
+            message: "Which role would you like to see?",
+            choices: [
+                "Manager",
+                "Navigator",
+                "Cannoneer",
+                "Swabbie",
+                "Pirate CEO"
+            ]
+        }
+    )
+    .then(function(answer) {
+        var query = "SELECT id, first_name, last_name, title, salary, department FROM employee AS e LEFT JOIN role AS r ON e.role_id = r.role_id LEFT JOIN division AS d ON d.department_id = r.department_id WHERE r.title = ?";
+        connection.query(query, [answer.role], function(err, res) {
+            if (err) throw err;
+            console.table(res);
+
+            choiceTime();
+        });
     });
 }

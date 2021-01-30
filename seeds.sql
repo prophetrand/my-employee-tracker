@@ -1,14 +1,14 @@
-INSERT INTO department (name, department_id)
+INSERT INTO division (department, department_id)
 VALUES ("Brains", 11);
 
-INSERT INTO department (name, department_id)
+INSERT INTO division (department, department_id)
 VALUES ("Brawn", 22);
 
 INSERT INTO role (title, salary, role_id, department_id)
 VALUES ("Manager", 300.99, 1, 11);
 
 INSERT INTO role (title, salary, role_id, department_id)
-VALUES ("Navigator", 199.00, 2, 11);
+VALUES ("Navigator", 199.99, 2, 11);
 
 INSERT INTO role (title, salary, role_id, department_id)
 VALUES ("Cannoneer", 220.20, 3, 22);
@@ -24,16 +24,19 @@ INSERT INTO employee (first_name, last_name, role_id, id)
 VALUES ("J.", "Pesos", 5, 777);
 
 INSERT INTO employee (first_name, last_name, role_id, id)
-VALUES ("Ash", "Ketchum", 1, 580);
+VALUES ("Lad", "Etz", 1, 580);
 
 INSERT INTO employee (first_name, last_name, role_id, id)
-VALUES ("Gary", "Oak", 1, 101);
+VALUES ("Jake", "Thomas", 1, 101);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
-VALUES ("Candy", "Prankson", 2, 101, 7);
+VALUES ("M.", "Bison", 2, 101, 7);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
-VALUES ("Porky", "Pig", 3, 101, 15);
+VALUES ("Manny", "Faberino", 3, 101, 17);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
 VALUES ("Pete", "Rose", 4, 580, 99);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id, id)
+VALUES ("Yojimbo", "Tale", 4, 101, 207);
